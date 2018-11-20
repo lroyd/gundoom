@@ -1,0 +1,31 @@
+1.流程：
+	a.初始化管理实体
+	b.注册
+	
+	
+	
+2.角色分类
+MANGER_ROLE_MASTER：fd监听，定时功能
+	使用EventMangerInit(p1,p2,p3)函数
+	p2：定时主回调函数，若NULL则使用默认函数（1min）
+	p3：主回调定时时间，单位ms
+	其中p2,p3只有在此角色时才生效
+	
+
+
+3.注册
+使用EventRegister（p1,p2）函数
+p1：事件体（用户自定义，但是第一个成员必须是T_EventInfo）
+	typedef struct _tagUserInfo
+	{    
+		T_EventInfo	in_tEvent;   //第一个成员必须是T_EventInfo
+		INT32		m_iCnt;
+	}T_UserInfo;
+	主要涉及三个成员使用:
+	g_pUserEvt.in_tEvent.m_emType		//事件类型
+	g_pUserEvt.in_tEvent.m_iEventFD		//fd,定时器为时间
+	g_pUserEvt.in_tEvent.m_Handle		//回调函数
+p2：管理实体
+
+4.epoll触发排队数量设定，高频触发下建议调大
+EventMangerInit（，p，，，）第二个参数，为0则默认最大32个

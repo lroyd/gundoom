@@ -1,0 +1,20 @@
+0.参数类型统一，log统一
+1.power on/off中间态的处理
+[优化]：目前dev单绑定profile，是否有必要多绑定（个人：底层dev唯一绑定，有profile做多端口绑定）
+2.create目前 open 和 bind 是一起的，不能单独bind
+3.stack以下层都不做参数判断（fd等），上层都已经做了
+4.去掉__FILE__的绝对路径：
+	Makefile中 CFALG += -U__FILE__ -D__FILE__='"$(subst $(dir $<),,$<)"'  但是会有警告，重定义__FILENAME__宏
+5.absl层目前都是malloc，需要修改
+
+6[*].vendor_lib.c中vendor_statue_cb的处理，目前是将(device->vnd_cb)->status_cb(state, fd, mfd, ret);回调函数每个case都写一遍（由于删除逻辑是先回调再删除），
+可修改成挂载一个hook来完成删除后的动作
+6.1[*].将app_gen_private.c中的设备open，send等接口合并
+6.2[*].vendor_lib.c中op操作每个都要判断对应底层函数是否存在，否则段错误
+6.3[优化].可以将底层hw_status_cb回调，做2级事件分类
+
+
+7.hw_link.c是否太臃肿？
+
+8[bug]:absl中的hci_vnd_if有问题，不应该是全局（全局的话，不能独立于device了），应该附属device下，netlink，vendor_lib.c和底层xxx_vendor.c都有bug（不独立）
+9[bug]:hash的全局性

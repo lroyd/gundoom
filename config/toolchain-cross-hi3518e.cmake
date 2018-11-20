@@ -1,0 +1,27 @@
+SET(CMAKE_SYSTEM_NAME Linux)
+SET(CMAKE_SYSTEM_VERSION 1)
+SET(TOOLCHAIN_DIR "/opt/hisi-linux/x86-arm/arm-hisiv300-linux/target/bin")
+
+SET(CMAKE_C_COMPILER   ${TOOLCHAIN_DIR}/arm-hisiv300-linux-gcc)
+SET(CMAKE_CXX_COMPILER ${TOOLCHAIN_DIR}/arm-hisiv300-linux-g++)
+
+SET(CMAKE_FIND_ROOT_PATH  ${TOOLCHAIN_DIR})
+SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+#设定MPP相关（绝对路径）
+SET(MPP_PATH	"/home/lroyd/pjsip/mpp")
+SET(COMMON_DIR  "${MPP_PATH}/sample/common")
+SET(LIBS_DIR	"${MPP_PATH}/lib")
+
+SET(CHIP_FLAGS	"-DCHIP_ID=CHIP_HI3518E_V200")
+
+SET(LIB_AUDIO	"-lVoiceEngine -lupvqe -ldnvqe ")
+SET(LIB_SENSOR	"-lisp -l_iniparser -l_hiae -l_hiawb -l_hiaf -l_hidefog ")
+SET(LIB_MPI		"-lmpi -live -lmd")
+SET(LIBS_FLAGS	"${LIB_AUDIO} ${LIB_SENSOR} ${LIB_MPI}")
+
+
+
+

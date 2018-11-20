@@ -1,0 +1,12 @@
+0.netlink中的up/down是针对网口的热拔插，不针对网络是否可用
+
+1.应用层回调，每层都分为cfm和ind两个
+	gen：cfm命令确认，ind数据事件指示（多用于直开的设备open，数据接收）
+	sqlite：cfm命令确认，ind数据事件指示
+	media：cfm命令确认，ind数据事件指示
+
+2.absl层的server，不会主动关闭附着的fd，都是由cli自己控制断开
+
+3.gen_xx_handle层使用的 PRO_XXXX命令 定义在pro_code_if.h中 ，HCI也使用
+
+4.gen层添加network操作

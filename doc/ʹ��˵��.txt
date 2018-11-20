@@ -1,0 +1,31 @@
+[注意]：测试时 /dev/ttyUSB0 没有权限 sudo chmod 777 /dev/ttyUSB0
+
+
+
+1.用户新增的命令都放在app_gen_code_if.h中，注意避免重复
+2.分目录实现app_xx_cmd.c 和 app_xx_evt.c，将函数声明都放在app_gen.h中（在xx_cmd.c中要判断getStackState）
+3.将对应的实现放到app_gen_cmd_handle.c 和 app_gen_evt_handle.c
+
+
+[提醒]：同步操作直接调用private.c中的函数，异步经过handle转发
+[提醒]：protocol是和profile层相关联的，protocol的类型在pro_code_if.h中定义
+
+[提醒]buffer的管理：GKI_getbuf：gki_getbuf_raw分配的时候是有BUFFER_HDR_T头的，可用于gki_enqueue（有状态管理）和utils_enqueue（无状态管理）
+-----------------------------------
+	|---
+	|   | BUFFER_HDR_T
+	|   |
+	|---
+-----------------------------------
+	|---
+	|   | 	size
+	|   |
+	|---
+-----------------------------------
+
+GKI_os_malloc：直接malloc，裸分配（尽量不要用）
+
+[提醒]：底层rcv_cb回调中，分配的数据不能超过系统的最大buf！！！
+[提醒]：hci_droid.c 	HC_EVENT_PRELOAD启动中间态	HC_EVENT_EPILOG 关闭中间态
+
+4.log分级中LOG_WARNING以上不影响使用
